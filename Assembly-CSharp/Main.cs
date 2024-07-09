@@ -88,14 +88,16 @@ public class Main : MonoBehaviour
 		{
 			return;
 		}
-		if (Thread.CurrentThread.Name != "Main")
+        GameEvents.OnGameStarted();
+        if (Thread.CurrentThread.Name != "Main")
 		{
 			Thread.CurrentThread.Name = "Main";
 		}
 		mainThreadName = Thread.CurrentThread.Name;
 		isPC = true;
 		started = true;
-		if (isPC)
+        
+        if (isPC)
 		{
 			level = Rms.loadRMSInt("levelScreenKN");
 			if (level == 1)

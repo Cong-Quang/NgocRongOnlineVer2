@@ -1474,13 +1474,16 @@ public class Panel : IActionListener, IChatable
 
 	public void setTypeZone()
 	{
-		type = 3;
-		setType(0);
-		setTabZone();
-		cmx = (cmtoX = 0);
+		return;
 	}
-
-	public void addItemDetail(Item item)
+    public void setKhu()
+    {
+        type = 3;
+        setType(0);
+        setTabZone();
+        cmx = (cmtoX = 0);
+    }
+    public void addItemDetail(Item item)
 	{
 		try
 		{
@@ -1857,6 +1860,10 @@ public class Panel : IActionListener, IChatable
 
 	public void show()
 	{
+		if (type == 3)
+		{
+			return;
+		}
 		if (GameCanvas.isTouch)
 		{
 			cmdClose.x = 156;
@@ -1879,8 +1886,31 @@ public class Panel : IActionListener, IChatable
 			Char.myCharz().setPartOld();
 		}
 	}
-
-	public void chatTFUpdateKey()
+    public void showKhu()
+    {
+        if (GameCanvas.isTouch)
+        {
+            cmdClose.x = 156;
+            cmdClose.y = 3;
+        }
+        else
+        {
+            cmdClose.x = GameCanvas.w - 19;
+            cmdClose.y = GameCanvas.h - 19;
+        }
+        cmdClose.isPlaySoundButton = false;
+        ChatPopup.currChatPopup = null;
+        InfoDlg.hide();
+        timeShow = 20;
+        isShow = true;
+        isClose = false;
+        SoundMn.gI().panelOpen();
+        if (isTypeShop())
+        {
+            Char.myCharz().setPartOld();
+        }
+    }
+    public void chatTFUpdateKey()
 	{
 		if (chatTField != null && chatTField.isShow)
 		{
@@ -7488,7 +7518,8 @@ public class Panel : IActionListener, IChatable
 			((ClanMessage)ClanMessage.vMessage.elementAt(i)).update();
 		}
 		updateCombineEff();
-	}
+        GameEvents.OnGameScrPressHotkeysUnassigned();
+    }
 
 	private void doSpeacialSkill()
 	{
@@ -8043,8 +8074,10 @@ public class Panel : IActionListener, IChatable
 				else
 				{
 					Service.gI().openUIZone();
+						this.setKhu();
+						this.showKhu();
 				}
-				break;
+				return;
 			case 5:
 				GameCanvas.endDlg();
 				if (Char.myCharz().checkLuong() < 5)
@@ -8122,10 +8155,11 @@ public class Panel : IActionListener, IChatable
 			}
 			else
 			{
-				Service.gI().openUIZone();
-			}
-			break;
-		case 6:
+                    this.setKhu();
+                    this.showKhu();
+            }
+            return;
+         case 6:
 			GameCanvas.endDlg();
 			if (Char.myCharz().checkLuong() < 5)
 			{

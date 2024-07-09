@@ -17,7 +17,10 @@
       <HintPath>..\Dragon ball_240\Dragon ball_240_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mod\" />
-  </ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)Dragon ball_240\Dragon ball_240_Data\Managed" />
+		<Message Text="Sao chép tệp tin đã hoàn tất." />
+	</Target>
+	
 </Project>
